@@ -13,38 +13,40 @@ import com.squareup.picasso.Picasso
 
 class CoinDetailActivity : AppCompatActivity() {
     private lateinit var coinviewmodel : coinViewModel
-    private lateinit var binding : ActivityCoinDetailBinding
+    private val binding by lazy {
+        ActivityCoinDetailBinding.inflate(layoutInflater)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCoinDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val tvPrice = binding.tvPrice
-        val logotypeCoin = binding.logotypeCoin
-        val tvFromSymmma = binding.fromsymbol
-        val tvSlash = binding.tvSlash
-        val tvToSymbol = binding.tvToSymbol
-        val tvMinPrice = binding.tvMinPrice
-        val tvMaxPrice = binding.tvMaxPrice
-        val tvLastMarket = binding.tvLastMarket
-        val tvLastUpdate = binding.tvLastUpdate
+//        val tvPrice = binding.tvPrice
+//        val logotypeCoin = binding.logotypeCoin
+//        val tvFromSymmma = binding.fromsymbol
+//        val tvSlash = binding.tvSlash
+//        val tvToSymbol = binding.tvToSymbol
+//        val tvMinPrice = binding.tvMinPrice
+//        val tvMaxPrice = binding.tvMaxPrice
+//        val tvLastMarket = binding.tvLastMarket
+//        val tvLastUpdate = binding.tvLastUpdate
 
         if (!intent.hasExtra(EXTRA_FROM_SYMBOL)) {
             finish()
             return
         }
+
         val fromsymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL)
         coinviewmodel = ViewModelProvider(this).get(coinViewModel::class.java)
         coinviewmodel.getDetailInfo(fromsymbol.toString()).observe(this){
-            Log.d("j12j3",it.toString())
-
-            tvPrice.text = it.price
-            tvMinPrice.text = it.lowday.toString()
-            tvMaxPrice.text = it.highday.toString()
-            tvLastMarket.text = it.lastmarket
-            tvLastUpdate.text = it.lastupdate
-            tvToSymbol.text = it.tosymbol
-            tvFromSymmma.text = it.fromsymbol
-            Picasso.get().load(it.imageurl).into(logotypeCoin)
+            with(binding) {
+                tvPrice.text = it.price
+                tvMinPrice.text = it.lowday.toString()
+                tvMaxPrice.text = it.highday.toString()
+                tvLastMarket.text = it.lastmarket
+                tvLastUpdate.text = it.lastupdate
+                tvToSymbol.text = it.tosymbol
+                binding.fromsymbol.text = it.fromsymbol
+                Picasso.get().load(it.imageurl).into(logotypeCoin)
+            }
 
         }
     }

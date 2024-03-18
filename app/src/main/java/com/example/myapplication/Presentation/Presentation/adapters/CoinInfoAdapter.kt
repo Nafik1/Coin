@@ -1,14 +1,10 @@
-package com.example.myapplication.Presentation
+package com.example.myapplication.Presentation.Presentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cripto.API.ApiFactory
 
 import com.example.myapplication.Domain.Domain.CoinInfo
 
@@ -19,7 +15,7 @@ import com.squareup.picasso.Picasso
 
 
 class CoinInfoAdapter(private val context: Context) :
-    ListAdapter<com.example.myapplication.Domain.Domain.CoinInfo, CoinInfoAdapter.CoinInfoViewHolder>(
+    ListAdapter<com.example.myapplication.Domain.Domain.CoinInfo, CoinInfoViewHolder>(
         CoinDiffCallBack()
     ) {
 
@@ -34,7 +30,7 @@ class CoinInfoAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: CoinInfoViewHolder, position: Int) {
         val coin = getItem(position)
-        with(holder) {
+        with(holder.binding) {
             with(coin) {
                 val symbolsTemplate = context.resources.getString(R.string.last_update_template)
                 val symbols_template = context.resources.getString(R.string.symbols_template)
@@ -43,22 +39,16 @@ class CoinInfoAdapter(private val context: Context) :
                 tvLastUpdate.text =
                     String.format(symbolsTemplate, lastupdate)
                 Picasso.get().load(imageurl).into(ivLogoCoin)
+                root.setOnClickListener {
+                    onCoinClicklistener?.invoke(coin)
+                }
             }
         }
-        holder.itemView.setOnClickListener {
-            onCoinClicklistener?.invoke(coin)
-        }
+
     }
 
 
-    inner class CoinInfoViewHolder(
-        val binding: ItemCoinInfoBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-        val ivLogoCoin = binding.ivLogoCoin
-        val tvSymbols = binding.tvSymbols
-        val tvPrice = binding.tvPrice
-        val tvLastUpdate = binding.tvLastUpdate
-    }
+
 
     interface onCoinClickListener {
         fun onCoinClick(coinInfo: CoinInfo)
