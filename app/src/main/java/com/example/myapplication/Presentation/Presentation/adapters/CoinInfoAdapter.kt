@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso
 
 class CoinInfoAdapter(private val context: Context) :
     ListAdapter<com.example.myapplication.Domain.Domain.CoinInfo, CoinInfoViewHolder>(
-        CoinDiffCallBack()
+        CoinDiffCallBack
     ) {
 
 

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         }
         val CoinInforecyclerView = binding.CoinInforecyclerView
         CoinInforecyclerView.adapter = adapter
-
+        binding.CoinInforecyclerView.itemAnimator = null
         coinviewmodel = ViewModelProvider(this).get(coinViewModel::class.java)
         coinviewmodel.ccoinInfoList.observe(this){
             adapter.submitList(it)
