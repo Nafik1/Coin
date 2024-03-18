@@ -1,15 +1,15 @@
-package com.example.cripto.pojo
+package com.example.myapplication.Data.api.model
 
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.cripto.API.ApiFactory.IMAGEBASE_URL
-import com.example.myapplication.utils.convertTimestampToTime
+
+
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "FullPriceList")
-data class CoinPriceInfo (
+data class CoinInfoDto (
     @SerializedName("TYPE")
     @Expose
     public val type: String? = null,
@@ -199,11 +199,5 @@ data class CoinPriceInfo (
     @Expose
     public val imageurl: String? = null
 ) {
-    fun getFormatedTime(): String {
-        return convertTimestampToTime(lastupdate)
-    }
-    fun getFullUrl() : String {
-        return IMAGEBASE_URL + imageurl
-    }
 
 }

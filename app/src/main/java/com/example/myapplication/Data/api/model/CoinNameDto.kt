@@ -1,11 +1,10 @@
-package com.example.cripto.pojo
+package com.example.myapplication.Data.api.model
 
-import android.media.Rating
 import androidx.annotation.NonNull
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class CoinInfo (
+data class CoinNameDto (
     @SerializedName("Id")
     @Expose
     val id: String? = null,

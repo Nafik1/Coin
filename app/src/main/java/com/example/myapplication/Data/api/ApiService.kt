@@ -1,7 +1,7 @@
 package com.example.cripto.API
 
-import com.example.cripto.pojo.CoinInfoListOfData
-import com.example.cripto.pojo.CoinPriceInfoRawData
+import com.example.myapplication.Data.api.model.CoinNamesListDto
+import com.example.myapplication.Data.api.model.CoinInfoJsonContainerDto
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -9,17 +9,17 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("top/totalvolfull")
-    fun getTopCoinsInfo(
+    suspend fun getTopCoinsInfo(
         @Query(QUERY_PARAM_API_KEY) apiKey: String = "",
         @Query(QUERY_PARAM_LIMIT) limit: Int = 10,
         @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
-    ) : Single<CoinInfoListOfData>
+    ) : CoinNamesListDto
     @GET("pricemultifull")
-    fun getFullPriceList(
+    suspend fun getFullPriceList(
         @Query(QUERY_PARAM_API_KEY) apiKey: String = "",
         @Query(QUERY_PARAM_TO_SYMBOLS) fSyms: String,
         @Query(QUERY_PARAM_FROM_SYBMOLS) tSyms: String = CURRENCY
-    ) : Single<CoinPriceInfoRawData>
+    ) : CoinInfoJsonContainerDto
 
     companion object {
         private const val QUERY_PARAM_LIMIT = "limit"

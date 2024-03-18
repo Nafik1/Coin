@@ -9,12 +9,10 @@ import retrofit2.create
 object ApiFactory {
 
     private const val BASE_URL = "https://min-api.cryptocompare.com/data/"
-    const val IMAGEBASE_URL = "https://cryptocompare.com"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()
     val apiservice = retrofit.create(ApiService::class.java)
 
