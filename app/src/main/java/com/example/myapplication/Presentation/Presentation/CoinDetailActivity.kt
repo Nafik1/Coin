@@ -41,6 +41,6 @@ class CoinDetailActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_FROM_SYMBOL, fromsybmol)
             return intent
         }
-//
+///
     }
 }
