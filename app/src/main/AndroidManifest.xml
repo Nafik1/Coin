@@ -18,7 +18,7 @@
             android:name=".Presentation.CoinDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".Presentation.MainActivity"
+            android:name=".Presentation.CoinListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

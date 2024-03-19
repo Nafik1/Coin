@@ -31,12 +31,10 @@ class coinViewModel(applicaton: Application) : AndroidViewModel(applicaton) {
     val ccoinInfoList = getCoinInfoListUseCase()
 
 
-    fun getDetailInfo(fSym:String) = getCoinInfoUseCase(fSym)
+    fun getDetailInfo(fSym: String) = getCoinInfoUseCase(fSym)
 
 
     init {
-        viewModelScope.launch {
-            loaddataUseCase()
-        }
+        loaddataUseCase()
     }
 }

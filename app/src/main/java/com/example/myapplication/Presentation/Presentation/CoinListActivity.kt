@@ -4,9 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.Presentation.Presentation.adapters.CoinInfoAdapter
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class CoinListActivity : AppCompatActivity() {
     private lateinit var coinviewmodel: coinViewModel
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -19,9 +20,11 @@ class MainActivity : AppCompatActivity() {
 
 
         adapter.onCoinClicklistener = {
-            val intent =
-                CoinDetailActivity.newIntent(this@MainActivity, it.fromsymbol)
-            startActivity(intent)
+            if(binding.fragmentContainer == null) {
+                launchDetailActivity(it.fromsymbol)
+            } else {
+                launchDetailFragment(it.fromsymbol)
+            }
         }
         val CoinInforecyclerView = binding.CoinInforecyclerView
         CoinInforecyclerView.adapter = adapter
@@ -30,7 +33,19 @@ class MainActivity : AppCompatActivity() {
         coinviewmodel.ccoinInfoList.observe(this){
             adapter.submitList(it)
         }
-
-
     }
+    private fun launchDetailActivity(fromSymbol: String) {
+        val intent =
+            CoinDetailActivity.newIntent(this@CoinListActivity, fromSymbol)
+        startActivity(intent)
+    }
+    private fun launchDetailFragment(fromSymbol : String) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, CoinDetailFragment.newInstance(fromSymbol))
+            .addToBackStack(null)
+            .commit()
+    }
+
 }

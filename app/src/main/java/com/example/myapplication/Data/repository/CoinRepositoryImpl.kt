@@ -4,10 +4,13 @@ import android.app.Application
 import android.view.animation.Transformation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
+import androidx.work.ExistingWorkPolicy
+import androidx.work.WorkManager
 import com.example.cripto.API.ApiFactory
 import com.example.cripto.API.ApiService
 import com.example.myapplication.Data.dataBase.DataBase
 import com.example.myapplication.Data.mapper.CoinMapper
+import com.example.myapplication.Data.workers.RefrashDataWorker
 import com.example.myapplication.Domain.Domain.CoinInfo
 import com.example.myapplication.Domain.Domain.CoinRepository
 import kotlinx.coroutines.delay
@@ -34,19 +37,12 @@ class CoinRepositoryImpl(
         }
     }
 
-    override suspend fun loadData() {
-        while(true) {
-            try {
-                val topCoins = apiservice.getTopCoinsInfo(limit = 50)
-                val fromSymbls = mapper.mapNamesListToString(topCoins)
-                val jsonContaine = apiservice.getFullPriceList(fSyms = fromSymbls)
-                val coinInfoDtoList = mapper.mapJsonContainerToListCoinInfo(jsonContaine)
-                val dbModelList = coinInfoDtoList.map { mapper.mapDtotoDbModel(it) }
-                coinInfoDao.insertPriceList(dbModelList)
-            } catch (e : Exception) {
-
-            }
-            delay(10000)
-        }
+    override fun loadData(){
+        val workmanager = WorkManager.getInstance(application)
+        workmanager.enqueueUniqueWork(
+            RefrashDataWorker.NAME,
+            ExistingWorkPolicy.REPLACE,
+            RefrashDataWorker.makeRequest()
+        )
     }
 }
