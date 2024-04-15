@@ -79,3 +79,4 @@ class CoinMapper @Inject constructor() {
         const val IMAGEBASE_URL = "https://cryptocompare.com"
     }
 }
+
