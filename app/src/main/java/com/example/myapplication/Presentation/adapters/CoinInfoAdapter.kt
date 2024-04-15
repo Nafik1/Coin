@@ -1,24 +1,22 @@
-package com.example.myapplication.Presentation.Presentation.adapters
+package com.example.myapplication.Presentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 
-import com.example.myapplication.Domain.Domain.CoinInfo
+import com.example.myapplication.Domain.CoinInfo
 
-import com.example.myapplication.Presentation.Presentation.CoinDiffCallBack
+import com.example.myapplication.Presentation.CoinDiffCallBack
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ItemCoinInfoBinding
 import com.squareup.picasso.Picasso
 
 
 class CoinInfoAdapter(private val context: Context) :
-    ListAdapter<com.example.myapplication.Domain.Domain.CoinInfo, CoinInfoViewHolder>(
+    ListAdapter<CoinInfo, CoinInfoViewHolder>(
         CoinDiffCallBack
     ) {
-
 
     var onCoinClicklistener: ((CoinInfo) -> Unit)? = null
 
@@ -44,13 +42,5 @@ class CoinInfoAdapter(private val context: Context) :
                 }
             }
         }
-
-    }
-
-
-
-
-    interface onCoinClickListener {
-        fun onCoinClick(coinInfo: CoinInfo)
     }
 }

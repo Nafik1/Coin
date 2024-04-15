@@ -1,4 +1,4 @@
-package com.example.myapplication.Presentation.Presentation.adapters
+package com.example.myapplication.Presentation.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemCoinInfoBinding

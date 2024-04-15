@@ -14,6 +14,7 @@ interface ApiService {
         @Query(QUERY_PARAM_LIMIT) limit: Int = 10,
         @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
     ) : CoinNamesListDto
+
     @GET("pricemultifull")
     suspend fun getFullPriceList(
         @Query(QUERY_PARAM_API_KEY) apiKey: String = "",
@@ -25,9 +26,7 @@ interface ApiService {
         private const val QUERY_PARAM_LIMIT = "limit"
         private const val QUERY_PARAM_TO_SYMBOL = "tsym"
         private const val QUERY_PARAM_API_KEY = "api_key"
-
         private const val CURRENCY = "USD"
-
         private const val QUERY_PARAM_TO_SYMBOLS = "fsyms"
         private const val QUERY_PARAM_FROM_SYBMOLS = "tsyms"
     }

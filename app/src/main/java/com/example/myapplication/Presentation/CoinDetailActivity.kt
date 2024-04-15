@@ -4,13 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 
 import com.example.myapplication.databinding.ActivityCoinDetailBinding
-import com.squareup.picasso.Picasso
 
 class CoinDetailActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -23,15 +19,15 @@ class CoinDetailActivity : AppCompatActivity() {
             finish()
             return
         }
-
         val fromsymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL)
         if (savedInstanceState == null)  {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container, CoinDetailFragment.newInstance(fromsymbol.toString()))
+                .replace(R.id.fragment_container,
+                    CoinDetailFragment.newInstance(fromsymbol.toString())
+                )
                 .commit()
         }
-
     }
 
     companion object {
@@ -41,6 +37,5 @@ class CoinDetailActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_FROM_SYMBOL, fromsybmol)
             return intent
         }
-///
     }
 }

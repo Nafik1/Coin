@@ -8,7 +8,7 @@ import com.example.myapplication.Data.api.model.CoinInfoDto
 
 @Database(entities = [CoinInfoDBModel::class], version = 4, exportSchema = false)
 abstract class DataBase : RoomDatabase() {
-    companion object{
+    companion object {
         private var db : DataBase? = null
         private const val db_name = "main.db"
         private val LOCK = Any()

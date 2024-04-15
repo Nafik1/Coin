@@ -1,7 +1,7 @@
-package com.example.myapplication.Presentation.Presentation
+package com.example.myapplication.Presentation
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.myapplication.Domain.Domain.CoinInfo
+import com.example.myapplication.Domain.CoinInfo
 
 object CoinDiffCallBack : DiffUtil.ItemCallback<CoinInfo>(){
     override fun areItemsTheSame(oldItem: CoinInfo, newItem: CoinInfo): Boolean {

@@ -2,24 +2,28 @@ package com.example.myapplication.Data.workers
 
 import android.content.Context
 import androidx.work.CoroutineWorker
+import androidx.work.ListenableWorker
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.cripto.API.ApiFactory
+import com.example.cripto.API.ApiService
+import com.example.myapplication.Data.dataBase.CoinPriceInfoDao
 import com.example.myapplication.Data.dataBase.DataBase
 import com.example.myapplication.Data.mapper.CoinMapper
 
 import kotlinx.coroutines.delay
 import java.lang.reflect.Parameter
+import javax.inject.Inject
 
-class RefrashDataWorker(
+class RefrashDataWorker (
     context : Context,
-    workerParameter: WorkerParameters
+    workerParameter: WorkerParameters,
+    private val coinInfoDao: CoinPriceInfoDao,
+    private val mapper: CoinMapper,
+    private val apiservice: ApiService
     ) : CoroutineWorker(context,workerParameter) {
-    private val coinInfoDao = DataBase.getInstance(context).coinPriceInfoDao()
-    private val mapper = CoinMapper()
-    private val apiservice = ApiFactory.apiservice
     override suspend fun doWork(): Result {
         while(true) {
             try {
@@ -40,8 +44,21 @@ class RefrashDataWorker(
         fun makeRequest() : OneTimeWorkRequest {
             return OneTimeWorkRequestBuilder<RefrashDataWorker>().build()
         }
+    }
 
-
-
+    class Factory @Inject constructor(
+        private val coinInfoDao: CoinPriceInfoDao,
+        private val mapper: CoinMapper,
+        private val apiservice: ApiService
+    ) : ChildWorkerFactory {
+        override fun create(context: Context, workerParameter: WorkerParameters): ListenableWorker {
+            return RefrashDataWorker(
+                context,
+                workerParameter,
+                coinInfoDao,
+                mapper,
+                apiservice
+            )
+        }
     }
 }

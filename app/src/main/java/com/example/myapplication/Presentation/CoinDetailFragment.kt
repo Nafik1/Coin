@@ -1,26 +1,33 @@
 package com.example.myapplication.Presentation
 
 import android.content.Context
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
-import com.example.myapplication.databinding.ActivityCoinDetailBinding
 import com.example.myapplication.databinding.FragmentCoinDetailBinding
 import com.squareup.picasso.Picasso
+import javax.inject.Inject
 
 class CoinDetailFragment : Fragment() {
-    private lateinit var coinviewmodel : coinViewModel
+    private lateinit var coinviewmodel : CoinViewModel
+    @Inject
+    lateinit var viewmodelFactory: ViewModelFactory
     private var _binding : FragmentCoinDetailBinding? = null
     private val binding : FragmentCoinDetailBinding
         get() = _binding ?: throw RuntimeException("oao")
+
+    private val component by lazy {
+        (requireActivity().application as CoinApp).component
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +42,7 @@ class CoinDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val args = requireArguments()
         val fromsymbol = args.getString(EXTRA_FROM_SYMBOL)
-        coinviewmodel = ViewModelProvider(this).get(coinViewModel::class.java)
+        coinviewmodel = ViewModelProvider(this,viewmodelFactory).get(CoinViewModel::class.java)
         coinviewmodel.getDetailInfo(fromsymbol.toString()).observe(viewLifecycleOwner){
             with(binding) {
                 tvPrice.text = it.price
@@ -47,10 +54,8 @@ class CoinDetailFragment : Fragment() {
                 binding.fromsymbol.text = it.fromsymbol
                 Picasso.get().load(it.imageurl).into(logotypeCoin)
             }
-
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -66,6 +71,5 @@ class CoinDetailFragment : Fragment() {
                 }
             }
         }
-
     }
 }

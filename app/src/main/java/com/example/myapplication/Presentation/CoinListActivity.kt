@@ -3,21 +3,31 @@ package com.example.myapplication.Presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import com.example.myapplication.Presentation.Presentation.adapters.CoinInfoAdapter
+import com.example.myapplication.Presentation.adapters.CoinInfoAdapter
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
+import javax.inject.Inject
 
 class CoinListActivity : AppCompatActivity() {
-    private lateinit var coinviewmodel: coinViewModel
+
+    private lateinit var coinviewmodel: CoinViewModel
+
+    @Inject
+    lateinit var viewmodelFactory: ViewModelFactory
+
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    private val component by lazy {
+        (application as CoinApp).component
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         val adapter = CoinInfoAdapter(this)
-
 
         adapter.onCoinClicklistener = {
             if(binding.fragmentContainer == null) {
@@ -29,7 +39,7 @@ class CoinListActivity : AppCompatActivity() {
         val CoinInforecyclerView = binding.CoinInforecyclerView
         CoinInforecyclerView.adapter = adapter
         binding.CoinInforecyclerView.itemAnimator = null
-        coinviewmodel = ViewModelProvider(this).get(coinViewModel::class.java)
+        coinviewmodel = ViewModelProvider(this, viewmodelFactory).get(CoinViewModel::class.java)
         coinviewmodel.ccoinInfoList.observe(this){
             adapter.submitList(it)
         }

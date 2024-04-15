@@ -4,16 +4,16 @@ import com.example.myapplication.Data.api.model.CoinInfoDto
 import com.example.myapplication.Data.api.model.CoinInfoJsonContainerDto
 import com.example.myapplication.Data.api.model.CoinNamesListDto
 import com.example.myapplication.Data.dataBase.CoinInfoDBModel
-import com.example.myapplication.Data.dataBase.CoinPriceInfoDao
-import com.example.myapplication.Domain.Domain.CoinInfo
+import com.example.myapplication.Domain.CoinInfo
 import com.google.gson.Gson
 import java.sql.Date
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
+import javax.inject.Inject
 
-class CoinMapper {
+class CoinMapper @Inject constructor() {
     fun mapDtotoDbModel(dto : CoinInfoDto) : CoinInfoDBModel {
         return CoinInfoDBModel(
             fromsymbol = dto.fromsymbol,
@@ -74,6 +74,7 @@ class CoinMapper {
         sdf.timeZone = TimeZone.getDefault()
         return sdf.format(date)
     }
+
     companion object {
         const val IMAGEBASE_URL = "https://cryptocompare.com"
     }
